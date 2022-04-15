@@ -6,12 +6,12 @@ ShopLoginModel({this.status, this.message, this.data});
 ShopLoginModel.fromApi(Map<String, dynamic> fromapi){
   status= fromapi['status'];
   message= fromapi['message'];
-  data= fromapi['data'];
+  data= fromapi['data'] != null? UserData.fromApi(fromapi['data']) : null;
 
 }
 }
 class UserData{
-  String?id;
+  int?id;
   String?name;
   String?image;
   String?email;
