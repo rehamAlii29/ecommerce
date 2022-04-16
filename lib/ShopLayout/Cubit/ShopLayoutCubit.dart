@@ -1,5 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:ecommerce/DioHelper.dart';
+import 'package:ecommerce/EndPoints.dart';
 import 'package:ecommerce/ShopLayout/Cubit/ShopLayoutStates.dart';
+import 'package:ecommerce/models/ShopHome.dart';
 import 'package:ecommerce/modules/Categories/Categories.dart';
 import 'package:ecommerce/modules/Favorites/Favorites.dart';
 import 'package:ecommerce/modules/Home/ProductsScreen.dart';
@@ -21,4 +25,15 @@ List<Widget> Screens=[
   Favorites(),
   Settings()
 ];
+ShopHomeModel? shopHomeModel;
+getHomeData(){
+  emit(ShopLayoutLoadingState());
+  DioHelper.getData(url: HOME, ).then((value)  {
+
+    ShopHomeModel.fromApi(value.data);
+    emit(ShopLayoutSuccessState());
+  });
+}
+
+
 }

@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter/services.dart';
 
+import 'Components/Const.dart';
 import 'ShopLayout/ShopLayout.dart';
 void main () async
 {
@@ -22,7 +23,7 @@ await CasheHelper.init();
  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, ),);
  bool? onboarding= CasheHelper.getData(key: 'onBoarding');
- String? token = CasheHelper.getData(key: 'token');
+ token = CasheHelper.getData(key: 'token');
  Widget? startWidget;
  if(onboarding != null)
    {
@@ -46,7 +47,7 @@ class ECommerce extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context)=>ShopLayoutCubit(),
+    return BlocProvider(create: (context)=>ShopLayoutCubit()..getHomeData(),
       child:   BlocConsumer<ShopLayoutCubit, ShopLayoutStates>(
         listener: (context, state){},
         builder: (context, state){
