@@ -1,4 +1,5 @@
 import 'package:ecommerce/Reusable/Reusable.dart';
+import 'package:ecommerce/Shared/Network/Local/CasheHelper.dart';
 import 'package:ecommerce/modules/Login/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ List<onBoardingModel> onboarding= [
 ];
 var pageviewcontroller= PageController();
 bool isLast=false;
+
 class OnBoarding extends StatefulWidget {
 
 
@@ -27,6 +29,10 @@ class OnBoarding extends StatefulWidget {
 }
 
 class _OnBoardingState extends State<OnBoarding> {
+  void sumbit(){
+    CasheHelper.saveDate(key: 'onBoarding', value: true);
+    navigationandclose(context, LoginScreen());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +48,11 @@ class _OnBoardingState extends State<OnBoarding> {
               children: [
               InkWell(
 
-                child: Text("Skip", style: TextStyle(color:  HexColor('#8222e3'), fontWeight: FontWeight.bold,fontSize: 25),)
-                ,onTap: (){ navigationandclose(context, LoginScreen());
+                child: Text("Skip",
+                  style: TextStyle(color:  HexColor('#8222e3'),
+                      fontWeight: FontWeight.bold,fontSize: 25),)
+                ,onTap: (){ sumbit();
+
               },
               )
             ],),
@@ -53,7 +62,7 @@ class _OnBoardingState extends State<OnBoarding> {
           itemCount: 3,
           controller: pageviewcontroller,
           onPageChanged: (index){
-            print(index);
+
             if(index== 2){
               setState(() {
                 isLast=true;
@@ -86,7 +95,7 @@ class _OnBoardingState extends State<OnBoarding> {
 
             FloatingActionButton(onPressed: (){
               if(isLast){
-                navigationandclose(context, LoginScreen());
+sumbit();
               }
               else
                 {

@@ -1,6 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:ecommerce/Reusable/Reusable.dart';
+import 'package:ecommerce/Shared/Network/Local/CasheHelper.dart';
 import 'package:ecommerce/modules/Login/Cubit/LoginCubit.dart';
 import 'package:ecommerce/modules/Login/Cubit/LoginState.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,6 +13,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:motion_toast/motion_toast.dart';
+
+import '../../ShopLayout/ShopLayout.dart';
 
 var emailController=TextEditingController();
 var passwordController=TextEditingController();
@@ -34,7 +39,8 @@ class LoginScreen extends StatelessWidget {
                     description:  Text(state.shopLoginModel!.message!),
                     width:  300
                 ).show(context);
-
+CasheHelper.saveDate(key: 'token', value: state.shopLoginModel!.data!.token);
+navigationandclose(context, ShopLayout());
               }
             else
               {
