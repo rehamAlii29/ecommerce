@@ -46,6 +46,7 @@ dependencies:
   motion_toast: ^2.1.6
   shared_preferences: ^2.0.13
   expandable_bottom_bar: ^2.0.2
+  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:

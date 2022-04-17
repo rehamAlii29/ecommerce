@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:ecommerce/Components/Const.dart';
 import 'package:ecommerce/DioHelper.dart';
 import 'package:ecommerce/EndPoints.dart';
 import 'package:ecommerce/ShopLayout/Cubit/ShopLayoutStates.dart';
@@ -28,9 +29,9 @@ List<Widget> Screens=[
 ShopHomeModel? shopHomeModel;
 getHomeData(){
   emit(ShopLayoutLoadingState());
-  DioHelper.getData(url: HOME, ).then((value)  {
-
-    ShopHomeModel.fromApi(value.data);
+  DioHelper.getData(url: HOME,token: token ).then((value)  {
+print(token);
+  shopHomeModel=  ShopHomeModel.fromApi(value.data as Map<String,dynamic>);
     emit(ShopLayoutSuccessState());
   });
 }

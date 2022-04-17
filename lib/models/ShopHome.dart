@@ -3,18 +3,19 @@ class ShopHomeModel{
   ShopHomeDataModel? data;
   ShopHomeModel.fromApi(Map<String, dynamic> fromApi){
     status= fromApi['status'];
-    data = ShopHomeDataModel.fromApifromApi(fromApi['status']); // l2nha msh kema wa7da heya object w kol element gwa el object 3bara 3n object bardo :D
+    data = ShopHomeDataModel.fromApi(fromApi['data']); // l2nha msh kema wa7da heya object w kol element gwa el object 3bara 3n object bardo :D
   }
 }
 class ShopHomeDataModel{
  List<Banners>? banners=[];
 List<Products>? products=[];
-ShopHomeDataModel.fromApifromApi(Map<String, dynamic> fromApi){
+ShopHomeDataModel.fromApi(Map<String, dynamic> fromApi){
   for(var element in fromApi['banners']){
-    banners!.add(element);
+    banners!.add(Banners.fromApi(element));
   }
+
   for(var element in fromApi['products']){
-    products!.add(element);
+    products!.add(Products.fromApi(element));
   }
 
 }
