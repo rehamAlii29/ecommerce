@@ -20,4 +20,6 @@ class getcategoriessuccess extends ShopLayoutStates{}
  }
  class GetFavLoading extends ShopLayoutStates{}
  class GetFavsuccess extends ShopLayoutStates{}
+ class GetUserInfoSuceessState extends ShopLayoutStates {}
+ class Logout extends ShopLayoutStates{}
 

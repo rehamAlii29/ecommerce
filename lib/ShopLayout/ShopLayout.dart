@@ -20,6 +20,9 @@ class _ShopLayoutState extends State<ShopLayout> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation:0,
+          centerTitle: true,
+          title: Text(ShopLayoutCubit.get(context).Titles[ShopLayoutCubit.get(context).currentindex],
+            style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900),),
         ),
         body: ShopLayoutCubit.get(context).Screens[ShopLayoutCubit.get(context).currentindex],
         bottomNavigationBar: BottomNavigationBar(

@@ -5,11 +5,13 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce/Components/Const.dart';
 import 'package:ecommerce/DioHelper.dart';
 import 'package:ecommerce/EndPoints.dart';
+import 'package:ecommerce/Shared/Network/Local/CasheHelper.dart';
 import 'package:ecommerce/ShopLayout/Cubit/ShopLayoutStates.dart';
 import 'package:ecommerce/models/Categories.dart';
 import 'package:ecommerce/models/Favorites.dart';
 import 'package:ecommerce/models/GetFavModel.dart';
 import 'package:ecommerce/models/ShopHome.dart';
+import 'package:ecommerce/models/ShopLoginModel.dart';
 import 'package:ecommerce/modules/Categories/Categories.dart';
 import 'package:ecommerce/modules/Favorites/Favorites.dart';
 import 'package:ecommerce/modules/Home/ProductsScreen.dart';
@@ -32,6 +34,8 @@ List<Widget> Screens=[
   Favorites(),
   Settings()
 ];
+List<String> Titles= ["Home", "Categories" , " Favorites", "Setting"];
+
 ShopHomeModel? shopHomeModel;
 Map<int , bool> FavoritesList ={};
 getHomeData(){
@@ -74,6 +78,9 @@ changeFavorites(int? productID){
     if(!favorites!.status!){
       FavoritesList[productID]= ! FavoritesList[productID]!;
     }
+    else{
+      getFav();
+    }
     emit(ChanFavSuccessState(favorites));
     print(value.data);
   }
@@ -87,8 +94,21 @@ getFav(){
   emit(GetFavLoading());
   DioHelper.getData(url: GETFAV, token: token).then((value){
     getFavModel =GetFavModel.fromJson(value.data);
+    print(value.data.toString());
     emit(GetFavsuccess());
   });
 }
-
+ShopLoginModel? shopLoginModel;
+getUserInfo(){
+DioHelper.getData(url: GETPROFILE, token: token).then((value) {
+  shopLoginModel = ShopLoginModel.fromApi(value.data);
+  emit(GetUserInfoSuceessState());
+});
+}
+logOut(){
+  DioHelper.getData(url: LOGOUT, token: token).then((value) {
+CasheHelper.clearCashe(key: 'token');
+emit(Logout());
+  });
+}
 }

@@ -48,7 +48,7 @@ class ECommerce extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context)=>ShopLayoutCubit()..getHomeData()..getCategories(),
+    return BlocProvider(create: (context)=>ShopLayoutCubit()..getHomeData()..getCategories()..getFav()..getUserInfo(),
       child:   BlocConsumer<ShopLayoutCubit, ShopLayoutStates>(
         listener: (context, state){},
         builder: (context, state){
