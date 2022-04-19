@@ -24,6 +24,7 @@ await CasheHelper.init();
     statusBarColor: Colors.transparent, ),);
  bool? onboarding= CasheHelper.getData(key: 'onBoarding');
  token = CasheHelper.getData(key: 'token');
+ print(token);
  Widget? startWidget;
  if(onboarding != null)
    {
@@ -47,7 +48,7 @@ class ECommerce extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context)=>ShopLayoutCubit()..getHomeData(),
+    return BlocProvider(create: (context)=>ShopLayoutCubit()..getHomeData()..getCategories(),
       child:   BlocConsumer<ShopLayoutCubit, ShopLayoutStates>(
         listener: (context, state){},
         builder: (context, state){
