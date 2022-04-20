@@ -1,5 +1,7 @@
+import 'package:ecommerce/Reusable/Reusable.dart';
 import 'package:ecommerce/ShopLayout/Cubit/ShopLayoutCubit.dart';
 import 'package:ecommerce/ShopLayout/Cubit/ShopLayoutStates.dart';
+import 'package:ecommerce/modules/Login/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,35 +25,93 @@ class _SettingsState extends State<Settings> {
    return Padding(
         padding: const EdgeInsets.all(20),
         child: Column(children: [
-          TextFormField(
-            controller: nameController,
-            decoration: InputDecoration(
-                prefixIcon: Icon(Icons.account_box_rounded),
-                labelText: "UserName",
-                border: OutlineInputBorder()
-            ),
-          ),
-          SizedBox(height: 10,),
-          TextFormField(
-            controller: emailController,
-            decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email),
-                labelText: "email",
-                border: OutlineInputBorder()
-            ),
-          ),
-          SizedBox(height: 10,),
-          TextFormField(
-            controller: phoneController,
-            decoration: InputDecoration(
-                prefixIcon: Icon(Icons.phone),
-                labelText: "phone number",
-                border: OutlineInputBorder()
-            ),
-          )
-          ,
-          SizedBox(height: 20,),
-          ElevatedButton(onPressed: (){}, child: Text("LogOut"))
+          Row(
+            mainAxisAlignment:  MainAxisAlignment.center,
+            children: [
+              Stack(
+                children: [
+                  CircleAvatar( radius:  50,
+                    backgroundImage:
+                    NetworkImage(ShopLayoutCubit.get(context).shopLoginModel!.data!.image!),),
+                  IconButton(onPressed: (){}, icon: Icon(Icons.camera_alt_outlined))
+                ],
+              ),
+          
+
+          ],),
+Padding(
+  padding: const EdgeInsets.all(20.0),
+  child:   Column(children: [
+
+    const SizedBox(height: 10,),
+
+    TextFormField(
+
+      controller: nameController,
+
+      decoration: const InputDecoration(
+
+          prefixIcon: Icon(Icons.account_box_rounded),
+
+          labelText: "UserName",
+
+          border: OutlineInputBorder()
+
+      ),
+
+    ),
+
+    const SizedBox(height: 10,),
+
+    TextFormField(
+
+      controller: emailController,
+
+      decoration: const InputDecoration(
+
+          prefixIcon: Icon(Icons.email),
+
+          labelText: "email",
+
+          border: OutlineInputBorder()
+
+      ),
+
+    ),
+
+    const SizedBox(height: 10,),
+
+    TextFormField(
+
+      controller: phoneController,
+
+      decoration: const InputDecoration(
+
+          prefixIcon: const Icon(Icons.phone),
+
+          labelText: "phone number",
+
+          border: const OutlineInputBorder()
+
+      ),
+
+    )
+
+    ,
+
+    const SizedBox(height: 20,),
+
+    ElevatedButton(onPressed: (){
+
+      ShopLayoutCubit.get(context).logOut();
+
+      navigationandclose(context, const LoginScreen());
+
+    }, child: const Text("LogOut"))
+
+  ],),
+)
+
 
         ],),
       );

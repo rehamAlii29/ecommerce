@@ -1,61 +1,54 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:ecommerce/Components/Const.dart';
+import 'package:ecommerce/DioHelper.dart';
 import 'package:ecommerce/Reusable/Reusable.dart';
 import 'package:ecommerce/Shared/Network/Local/CasheHelper.dart';
-import 'package:ecommerce/modules/Login/Cubit/LoginCubit.dart';
-import 'package:ecommerce/modules/Login/Cubit/LoginState.dart';
-
+import 'package:ecommerce/ShopLayout/ShopLayout.dart';
+import 'package:ecommerce/modules/Register/RegisterCubit.dart';
+import 'package:ecommerce/modules/Register/RegisterState.dart';
+import 'package:ecommerce/modules/Settings/Settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:motion_toast/motion_toast.dart';
 
-import '../../ShopLayout/ShopLayout.dart';
-import '../Register/Register.dart';
-
-var emailController=TextEditingController();
-var passwordController=TextEditingController();
-var formKey = GlobalKey<FormState>();
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
 
   @override
+  State<Register> createState() => _RegisterState();
+}
+var name = TextEditingController();
+var email = TextEditingController();
+var password = TextEditingController();
+var phone = TextEditingController();
+var formKey=GlobalKey<FormState>();
+class _RegisterState extends State<Register> {
+  @override
   Widget build(BuildContext context) {
-   // SystemChrome.setEnabledSystemUIOverlays([]);
-
-    return BlocProvider(
-      create: (context)=>LoginCubit(),
-      child: BlocConsumer<LoginCubit , LoginState>(
+  return  BlocProvider(create: (context) => RegisterCubit(),
+    child: BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context , state){
-        if(state is LoginSuccessState)
-          {
-            if(state.shopLoginModel!.status!)
-              {
-                MotionToast.success(
+        if(state is successRegister){
+          if(state.shopLoginModel!.status!){
+            CasheHelper.saveDate(key: 'token', value: state.shopLoginModel!.data!.token).then((value){
+             // token = state.shopLoginModel!.data!.token;
+              MotionToast.success(
+                  description: Text(state.shopLoginModel!.message!)
+              );
+            });
 
-                    description:  Text(state.shopLoginModel!.message!),
-                    width:  300
-                ).show(context);
-CasheHelper.saveDate(key: 'token', value: state.shopLoginModel!.data!.token);
-token = state.shopLoginModel!.data!.token;
-navigationandclose(context, ShopLayout());
-              }
-            else
-              {
-                MotionToast.warning(
-
-                    description:  Text(state.shopLoginModel!.message!)
-                ).show(context);
-
-              }
+          navigationandclose(context,ShopLayout());}
+          else{
+            MotionToast.error(description: Text(state.shopLoginModel!.message!));
           }
+        }
+
+
       },
-        builder: (context, state){
+      builder: (context , state){
         return   Scaffold(
           backgroundColor: HexColor('FFFFFF'),
           body: SingleChildScrollView(
@@ -72,7 +65,7 @@ navigationandclose(context, ShopLayout());
                       left: 21,
                       //   height: 420,
                       width: 360,
-                      child: Text("Login", style: GoogleFonts.nunito(color: HexColor('2F80ED'),
+                      child: Text("SignUp", style: GoogleFonts.nunito(color: HexColor('2F80ED'),
                           fontSize: 36
                           ,fontWeight: FontWeight.bold
                       )
@@ -113,7 +106,7 @@ navigationandclose(context, ShopLayout());
                             width: 309,
                             height: 40,
                             child: TextFormField(
-                              controller: emailController,
+                              controller: email,
                               validator: (value){
                                 if(value!.isEmpty)
                                   return "Please Enter Your e-mail";
@@ -122,6 +115,35 @@ navigationandclose(context, ShopLayout());
                             )),
                       ),
 
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, bottom:2 ,top: 10 ),
+                        child: Text(
+                            "Name",
+
+                            style: GoogleFonts.nunito(color: HexColor('2F80ED'),
+                                fontSize: 14
+                                ,fontWeight: FontWeight.normal
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: Container(
+                            decoration: BoxDecoration(border: Border.all(color:HexColor('2F80ED') ),
+                                borderRadius: BorderRadius.circular(10)),
+                            width: 309,
+                            height: 40,
+                            child: TextFormField(
+                              controller: name,
+                              validator: (value){
+                                if(value!.isEmpty)
+                                  return "Please Enter Your password";
+                              },
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none
+
+                              ),
+                            )),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 25, bottom:2 ,top: 10 ),
                         child: Text(
@@ -140,7 +162,36 @@ navigationandclose(context, ShopLayout());
                             width: 309,
                             height: 40,
                             child: TextFormField(
-                              controller: passwordController,
+                              controller: password,
+                              validator: (value){
+                                if(value!.isEmpty)
+                                  return "Please Enter Your password";
+                              },
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none
+
+                              ),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, bottom:2 ,top: 10 ),
+                        child: Text(
+                            "Phone",
+
+                            style: GoogleFonts.nunito(color: HexColor('2F80ED'),
+                                fontSize: 14
+                                ,fontWeight: FontWeight.normal
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: Container(
+                            decoration: BoxDecoration(border: Border.all(color:HexColor('2F80ED') ),
+                                borderRadius: BorderRadius.circular(10)),
+                            width: 309,
+                            height: 40,
+                            child: TextFormField(
+                              controller: phone,
                               validator: (value){
                                 if(value!.isEmpty)
                                   return "Please Enter Your password";
@@ -152,54 +203,30 @@ navigationandclose(context, ShopLayout());
                             )),
                       ),
 
+
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 217, top: 17.5, bottom: 17.5),
-                  child:   Text("Forgot Password ?",style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.bold, color:HexColor('2F80ED') ),),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left:25 ),
-                  child:   Row(children: [
-
-                    InkWell(child: Image.asset('assets/images/google logo.png', width: 45, height: 45,), onTap: (){},),
-                    InkWell(child: Image.asset('assets/images/fb logo.png', width: 45, height: 45,), onTap: (){},),
-                    InkWell(child: Image.asset('assets/images/apple logo.png', width: 45, height: 45,), onTap: (){},),
 
 
-                  ],),
-                ),
                 Stack(
 
                   children: [
                     Image.asset('assets/images/vector3.png',),
-                    Positioned
-                      (
-                        left: 24,
-                        width: 161,
-                        height: 34,
-                        bottom: 10,
-                        child: InkWell(
-                          onTap: (){
-                            navigationandclose(context, Register());
-                          },
-                          child: Row(children: [ Text("New Here?", style: GoogleFonts.nunito(fontSize: 16, color: HexColor('FFFFFF')), ),
-                            Text("Register", style: GoogleFonts.nunito(fontSize: 16,fontWeight: FontWeight.bold,  color: HexColor('FFFFFF')),)
-                          ],),
-                        )),
+
                     Positioned(
                       left: 257,
                       bottom: 25,
                       child: ConditionalBuilder(
-                        condition: state is! LoginErrorState,
+                        condition: true,
                         builder: (context)=>  InkWell(
-onTap: (){
-  if(formKey.currentState!.validate())
-    LoginCubit.get(context).login(email: emailController.text, password: passwordController.text);
-  if(state is LoginSuccessState)
-    print('done');
-},
+                          onTap: (){
+                            if(formKey.currentState!.validate())
+                              RegisterCubit.get(context).register(name: name.text,
+                                  password: password.text,
+                                  email: email.text,
+                                  phone: phone.text);
+                          },
                           child: Container(
 
                             decoration: BoxDecoration(
@@ -214,7 +241,7 @@ onTap: (){
                             ),
                             width: 144,
                             height: 60,
-                            child: Center(child: Text("Login", style: GoogleFonts.nunito(color:HexColor('FFFFFF'),
+                            child: Center(child: Text("SignUp", style: GoogleFonts.nunito(color:HexColor('FFFFFF'),
                                 fontSize: 22, fontWeight: FontWeight.normal) ,)),
                           ),
                         ),
@@ -228,8 +255,8 @@ onTap: (){
               ],),
           ),
         );
-        },
-      ),
-    );
+      },
+    ),
+  );
   }
 }

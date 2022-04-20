@@ -20,7 +20,7 @@ void main () async
 //  await ScreenUtil.ensureScreenSize();
  DioHelper.init();
 await CasheHelper.init();
- SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+ SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, ),);
  bool? onboarding= CasheHelper.getData(key: 'onBoarding');
  token = CasheHelper.getData(key: 'token');
@@ -48,7 +48,8 @@ class ECommerce extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context)=>ShopLayoutCubit()..getHomeData()..getCategories()..getFav()..getUserInfo(),
+    return BlocProvider(create: (context)=>ShopLayoutCubit()
+      ..getHomeData()..getCategories()..getFav()..getUserInfo(),
       child:   BlocConsumer<ShopLayoutCubit, ShopLayoutStates>(
         listener: (context, state){},
         builder: (context, state){

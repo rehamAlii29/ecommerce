@@ -26,6 +26,8 @@ static ShopLayoutCubit get(context)=>BlocProvider.of(context);
 int currentindex= 0;
 changebottomnavbarcubit( int index){
   currentindex=index;
+  if(index ==3)
+    getUserInfo();
   emit(ChangeBottomNavBar());
 }
 List<Widget> Screens=[
@@ -105,10 +107,12 @@ DioHelper.getData(url: GETPROFILE, token: token).then((value) {
   emit(GetUserInfoSuceessState());
 });
 }
+
 logOut(){
-  DioHelper.getData(url: LOGOUT, token: token).then((value) {
+  DioHelper.postData(url: LOGOUT, token: token).then((value) {
 CasheHelper.clearCashe(key: 'token');
 emit(Logout());
   });
 }
+
 }

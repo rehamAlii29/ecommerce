@@ -20,8 +20,7 @@ class UserData{
   int?credits;
   String?token;
 
-
- // UserData ({this.id, this.name, this.image, this.email, this.phone, this.token,this.credits,this.points});
+  UserData ({this.id, this.name, this.image, this.email, this.phone, this.token,this.credits,this.points});
 UserData.fromApi(Map<String, dynamic> fromapi)
 {
   id=fromapi['id'];
@@ -34,4 +33,5 @@ UserData.fromApi(Map<String, dynamic> fromapi)
   token=fromapi['token'];
 
 }
+
 }
