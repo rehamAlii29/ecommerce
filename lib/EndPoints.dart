@@ -6,3 +6,4 @@ const CHANGEFAVORITES = 'favorites';
 const GETFAV= 'favorites';
 const GETPROFILE= 'profile';
 const LOGOUT = 'logout';
+const UPDADTEPROFILE = 'update-profile';

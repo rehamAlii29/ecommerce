@@ -1,5 +1,7 @@
 
 
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:ecommerce/Components/Const.dart';
@@ -19,6 +21,7 @@ import 'package:ecommerce/modules/Settings/Settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ShopLayoutCubit extends Cubit<ShopLayoutStates>{
   ShopLayoutCubit() : super(ShopLayoutInitialState());
@@ -114,5 +117,47 @@ CasheHelper.clearCashe(key: 'token');
 emit(Logout());
   });
 }
+
+  final ImagePicker _picker = ImagePicker();
+File? profileimage;
+Future<void> updateuserimage()async{
+  XFile? xFile = await _picker.pickImage(source: ImageSource.gallery);
+  if (xFile != null){
+    profileimage=File(xFile.path);
+    String? fileName = profileimage!.path.split('/').last;
+    FormData formData = FormData.fromMap({"file" : await MultipartFile.fromFile(xFile.path , filename:  fileName )});
+   // print(formData.toString());
+  DioHelper.updateData(url: UPDADTEPROFILE,token: token,  data: {
+     'image': fileName,
+
+   }).then((value) {
+     shopLoginModel = ShopLoginModel.fromApi(value.data);
+  //   getUserInfo();
+emit(UPdateimageSuccess());
+   });
+  }
+
+}
+updateUserInfo( {
+  @required String ? name,
+  @required String ? email,
+  @required String ? phone,
+}){
+  emit(UpdateserInformationLoading());
+  DioHelper.updateData(url: UPDADTEPROFILE,
+      token:  token,
+      data: {
+    'name':name ,
+    'email':email,
+    'phone':phone
+  }).then((value) {
+    shopLoginModel = ShopLoginModel.fromApi(value.data);
+    emit(UpdateserInformationSuccess());
+  });
+
+}
+
+
+
 
 }

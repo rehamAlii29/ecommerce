@@ -41,6 +41,19 @@ static Future<Response> postData({
   };
   return await dio!.post(url!,data: data, queryParameters: query);
 }
+static Future<Response> updateData({
+  @required String?url ,
+  Map<String, dynamic>? query,
+  @required Map<String, dynamic>? data,
+  String? lang='en',
+  String?token// elly hab3tha fel post :D
+})async {
+  dio!.options.headers={
+    'Content-Type':'application/json',
+    'lang':lang,
+    'Authorization':token??''
+  };
+  return await dio!.put(url!,data: data, queryParameters: query);
+}
 
 }
-//abdullah.ali@gmail.com

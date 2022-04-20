@@ -24,16 +24,26 @@ class _SettingsState extends State<Settings> {
     phoneController.text =ShopLayoutCubit.get(context).shopLoginModel!.data!.phone!;
    return Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(children: [
+        child: Column(
+          children: [
+
+            if(state is UpdateserInformationLoading )
+              LinearProgressIndicator(),
           Row(
             mainAxisAlignment:  MainAxisAlignment.center,
             children: [
               Stack(
+                alignment: Alignment.bottomRight,
                 children: [
                   CircleAvatar( radius:  50,
                     backgroundImage:
                     NetworkImage(ShopLayoutCubit.get(context).shopLoginModel!.data!.image!),),
-                  IconButton(onPressed: (){}, icon: Icon(Icons.camera_alt_outlined))
+                  Positioned( left: 60,
+                      child: IconButton(onPressed: (
+
+                          ){
+                        ShopLayoutCubit.get(context).updateuserimage();
+                      }, icon: Icon(Icons.camera_alt_outlined)))
                 ],
               ),
           
@@ -100,7 +110,18 @@ Padding(
     ,
 
     const SizedBox(height: 20,),
+    ElevatedButton(onPressed: (){
 
+      ShopLayoutCubit.get(context).updateUserInfo(
+        name: nameController.text,
+        email: emailController.text,
+        phone: phoneController.text
+      );
+
+
+
+    }, child: const Text("Update")),
+    const SizedBox(height: 20,),
     ElevatedButton(onPressed: (){
 
       ShopLayoutCubit.get(context).logOut();

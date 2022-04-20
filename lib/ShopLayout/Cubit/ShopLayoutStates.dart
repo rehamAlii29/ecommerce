@@ -23,3 +23,6 @@ class getcategoriessuccess extends ShopLayoutStates{}
  class GetUserInfoSuceessState extends ShopLayoutStates {}
  class Logout extends ShopLayoutStates{}
 
+class UPdateimageSuccess extends ShopLayoutStates{}
+ class UpdateserInformationLoading extends ShopLayoutStates{}
+ class UpdateserInformationSuccess extends ShopLayoutStates{}
