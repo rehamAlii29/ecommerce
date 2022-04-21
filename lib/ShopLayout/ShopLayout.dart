@@ -1,5 +1,6 @@
 import 'package:ecommerce/ShopLayout/Cubit/ShopLayoutCubit.dart';
 import 'package:ecommerce/ShopLayout/Cubit/ShopLayoutStates.dart';
+import 'package:ecommerce/modules/SearchScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,11 @@ class _ShopLayoutState extends State<ShopLayout> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation:0,
           centerTitle: true,
+          actions: [IconButton(onPressed: (){
+            Navigator.push(context, 
+              MaterialPageRoute(builder: (context)=>SearchScreen(), )
+            );
+          }, icon: Icon(Icons.search, color: Colors.black,))],
           title: Text(ShopLayoutCubit.get(context).Titles[ShopLayoutCubit.get(context).currentindex],
             style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900),),
         ),

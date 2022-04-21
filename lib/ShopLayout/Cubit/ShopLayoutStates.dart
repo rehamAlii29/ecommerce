@@ -26,3 +26,5 @@ class getcategoriessuccess extends ShopLayoutStates{}
 class UPdateimageSuccess extends ShopLayoutStates{}
  class UpdateserInformationLoading extends ShopLayoutStates{}
  class UpdateserInformationSuccess extends ShopLayoutStates{}
+ class SearchResultLoading extends ShopLayoutStates{}
+ class SearchResultSuccess extends ShopLayoutStates{}

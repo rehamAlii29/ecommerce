@@ -42,7 +42,7 @@ class _SettingsState extends State<Settings> {
                       child: IconButton(onPressed: (
 
                           ){
-                        ShopLayoutCubit.get(context).updateuserimage();
+                        ShopLayoutCubit.get(context).pickimage();
                       }, icon: Icon(Icons.camera_alt_outlined)))
                 ],
               ),
@@ -112,7 +112,7 @@ Padding(
     const SizedBox(height: 20,),
     ElevatedButton(onPressed: (){
 
-      ShopLayoutCubit.get(context).updateUserInfo(
+    ShopLayoutCubit.get(context).updateUserInfo(
         name: nameController.text,
         email: emailController.text,
         phone: phoneController.text

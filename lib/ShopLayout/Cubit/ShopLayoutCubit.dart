@@ -1,5 +1,6 @@
 
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -12,6 +13,7 @@ import 'package:ecommerce/ShopLayout/Cubit/ShopLayoutStates.dart';
 import 'package:ecommerce/models/Categories.dart';
 import 'package:ecommerce/models/Favorites.dart';
 import 'package:ecommerce/models/GetFavModel.dart';
+import 'package:ecommerce/models/SearchModel.dart';
 import 'package:ecommerce/models/ShopHome.dart';
 import 'package:ecommerce/models/ShopLoginModel.dart';
 import 'package:ecommerce/modules/Categories/Categories.dart';
@@ -20,7 +22,9 @@ import 'package:ecommerce/modules/Home/ProductsScreen.dart';
 import 'package:ecommerce/modules/Settings/Settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ShopLayoutCubit extends Cubit<ShopLayoutStates>{
@@ -119,45 +123,58 @@ emit(Logout());
 }
 
   final ImagePicker _picker = ImagePicker();
+String? base;
 File? profileimage;
-Future<void> updateuserimage()async{
-  XFile? xFile = await _picker.pickImage(source: ImageSource.gallery);
+Future<void> pickimage()async{
+  XFile? xFile = await _picker.pickImage(source: ImageSource.gallery,imageQuality: 50);
   if (xFile != null){
     profileimage=File(xFile.path);
-    String? fileName = profileimage!.path.split('/').last;
-    FormData formData = FormData.fromMap({"file" : await MultipartFile.fromFile(xFile.path , filename:  fileName )});
-   // print(formData.toString());
-  DioHelper.updateData(url: UPDADTEPROFILE,token: token,  data: {
-     'image': fileName,
+   base = base64Encode(profileimage!.readAsBytesSync());
 
-   }).then((value) {
-     shopLoginModel = ShopLoginModel.fromApi(value.data);
-  //   getUserInfo();
-emit(UPdateimageSuccess());
-   });
+
   }
 
 }
+
 updateUserInfo( {
   @required String ? name,
   @required String ? email,
   @required String ? phone,
-}){
+}) async{
   emit(UpdateserInformationLoading());
+  // if the data in postman sent as form data
+  String fileName = profileimage!.path.split('/').last;
+  /*FormData formData = FormData.fromMap({
+    "image":
+    await MultipartFile.fromFile(profileimage!.path, filename:fileName,
+       contentType: MediaType.parse("image/png",)
+    )
+  });*/
   DioHelper.updateData(url: UPDADTEPROFILE,
       token:  token,
       data: {
     'name':name ,
     'email':email,
-    'phone':phone
+    'phone':phone,
+        'image': base
   }).then((value) {
+
     shopLoginModel = ShopLoginModel.fromApi(value.data);
     emit(UpdateserInformationSuccess());
   });
 
 }
-
-
+SearchModel? searchModel;
+search({@required searchKey})
+{
+emit(SearchResultLoading());
+DioHelper.postData(url: SEARCH, data: {
+  'text': searchKey
+}, token: token).then((value) {
+  searchModel = SearchModel.fromjson(value.data);
+  emit(SearchResultSuccess());
+});
+}
 
 
 }

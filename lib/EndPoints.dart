@@ -7,3 +7,4 @@ const GETFAV= 'favorites';
 const GETPROFILE= 'profile';
 const LOGOUT = 'logout';
 const UPDADTEPROFILE = 'update-profile';
+const SEARCH = 'products/search';
