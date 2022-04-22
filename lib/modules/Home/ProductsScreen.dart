@@ -227,7 +227,15 @@ return
                   },
                   icon: Icon(Icons.favorite,
                     color: ShopLayoutCubit.get(context).FavoritesList[products.id]! ?  Colors.red : Colors.grey,
-                  ))
+                  )),
+              IconButton(
+                alignment: AlignmentDirectional.bottomEnd,
+                  onPressed: (){
+                  ShopLayoutCubit.get(context).changeFavorites(products.id!);
+                  },
+                  icon: Icon(Icons.shopping_cart,
+                    color: Colors.black
+                  )),
             ],)
 
           ],

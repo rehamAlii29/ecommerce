@@ -41,8 +41,9 @@ class LoginScreen extends StatelessWidget {
                     description:  Text(state.shopLoginModel!.message!),
                     width:  300
                 ).show(context);
-CasheHelper.saveDate(key: 'token', value: state.shopLoginModel!.data!.token);
-token = state.shopLoginModel!.data!.token;
+CasheHelper.saveDate(key: 'token', value: state.shopLoginModel!.data!.token).then((value) {
+  token = state.shopLoginModel!.data!.token;});
+
 navigationandclose(context, ShopLayout());
               }
             else

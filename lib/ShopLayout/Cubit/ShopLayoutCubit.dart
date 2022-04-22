@@ -131,9 +131,24 @@ Future<void> pickimage()async{
     profileimage=File(xFile.path);
    base = base64Encode(profileimage!.readAsBytesSync());
 
-
   }
+  emit(Uploadimage());
 
+}
+updateProfileImage(){
+  emit(UPdateimageLoading());
+  DioHelper.updateData(url: UPDADTEPROFILE,
+      token:  token,
+      data: {
+        'name':shopLoginModel!.data!.name ,
+        'email':shopLoginModel!.data!.email,
+        'phone':shopLoginModel!.data!.phone,
+        'image': base
+      }).then((value) {
+
+    shopLoginModel = ShopLoginModel.fromApi(value.data);
+    emit(UpdateserInformationSuccess());
+  });
 }
 
 updateUserInfo( {
@@ -143,8 +158,8 @@ updateUserInfo( {
 }) async{
   emit(UpdateserInformationLoading());
   // if the data in postman sent as form data
-  String fileName = profileimage!.path.split('/').last;
-  /*FormData formData = FormData.fromMap({
+ /* String fileName = profileimage!.path.split('/').last;
+  FormData formData = FormData.fromMap({
     "image":
     await MultipartFile.fromFile(profileimage!.path, filename:fileName,
        contentType: MediaType.parse("image/png",)
@@ -156,7 +171,7 @@ updateUserInfo( {
     'name':name ,
     'email':email,
     'phone':phone,
-        'image': base
+      //  'image': base
   }).then((value) {
 
     shopLoginModel = ShopLoginModel.fromApi(value.data);

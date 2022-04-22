@@ -5,6 +5,7 @@ import 'package:ecommerce/modules/Login/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -39,11 +40,56 @@ class _SettingsState extends State<Settings> {
                     backgroundImage:
                     NetworkImage(ShopLayoutCubit.get(context).shopLoginModel!.data!.image!),),
                   Positioned( left: 60,
-                      child: IconButton(onPressed: (
+                      child: InkWell(
+                        onTap: (){
+                          ShopLayoutCubit.get(context).pickimage().then((value) {
+                            if(ShopLayoutCubit.get(context).profileimage.toString() != null)
+                            {
+                              showDialog(context: context,
+                                  builder: (context){
+                                    return Dialog(
 
-                          ){
-                        ShopLayoutCubit.get(context).pickimage();
-                      }, icon: Icon(Icons.camera_alt_outlined)))
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                                        elevation: 16,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min
+                                          ,children: [
+                                          Image(image:
+
+                                          FileImage(ShopLayoutCubit.get(context).profileimage!)),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround
+                                            , children: [
+                                            ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor: MaterialStateProperty.all(Colors.green)
+                                                )
+                                                ,onPressed: (){
+                                              ShopLayoutCubit.get(context).updateProfileImage();
+                                              Navigator.of(context, rootNavigator: true).pop();
+                                            }, child: Text ("okay")),
+                                            ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor: MaterialStateProperty.all(Colors.red)
+                                                )
+                                                ,onPressed: (){
+                                              Navigator.of(context, rootNavigator: true).pop();
+                                            }, child: Text ("cancle"))
+                                          ],)
+                                        ],)
+                                    );
+                                  });
+                            }
+
+                          });
+
+                        },
+                        child: const CircleAvatar(
+                          radius: 15,
+                          backgroundImage: AssetImage('assets/images/camera.png'),
+
+                        ),
+                      ))
                 ],
               ),
           
